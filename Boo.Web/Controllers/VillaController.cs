@@ -1,4 +1,5 @@
-﻿using Boo.Infrastructure.Data;
+﻿using Boo.Domain.Entities;
+using Boo.Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Boo.Web.Controllers
@@ -15,6 +16,25 @@ namespace Boo.Web.Controllers
         {
             var villas = _db.Villas.ToList();
             return View(villas);
+        }
+        public IActionResult Create()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Create(Villa obj)
+        {
+            if (obj.Name == obj.Description)
+            {
+                ModelState.AddModelError("name", "The description cannot exactly match the Name.");
+            }
+            if (ModelState.IsValid)
+            {
+                _db.Villas.Add(obj);
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View();
         }
     }
 }
