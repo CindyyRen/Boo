@@ -4,23 +4,26 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Boo.Web.Controllers
 {
-    public class VillaController : Controller
+    public class VillaNumberController : Controller
     {
         private readonly ApplicationDbContext _db;
 
-        public VillaController(ApplicationDbContext db)
+        public VillaNumberController(ApplicationDbContext db)
         {
             _db = db;
         }
+
         public IActionResult Index()
         {
-            var villas = _db.Villas.ToList();
-            return View(villas);
+            var villaNumbers = _db.VillaNumbers.ToList();
+            return View(villaNumbers);
         }
+
         public IActionResult Create()
         {
             return View();
         }
+
         [HttpPost]
         public IActionResult Create(Villa obj)
         {
@@ -37,7 +40,6 @@ namespace Boo.Web.Controllers
             }
             return View();
         }
-        
 
         public IActionResult Update(int villaId)
         {
@@ -50,6 +52,8 @@ namespace Boo.Web.Controllers
             }
             return View(obj);
         }
+
+
         [HttpPost]
         public IActionResult Update(Villa obj)
         {
@@ -62,6 +66,9 @@ namespace Boo.Web.Controllers
             }
             return View();
         }
+
+
+
         public IActionResult Delete(int villaId)
         {
             Villa? obj = _db.Villas.FirstOrDefault(u => u.Id == villaId);
@@ -71,6 +78,8 @@ namespace Boo.Web.Controllers
             }
             return View(obj);
         }
+
+
         [HttpPost]
         public IActionResult Delete(Villa obj)
         {
@@ -82,6 +91,7 @@ namespace Boo.Web.Controllers
                 TempData["success"] = "The villa has been deleted successfully.";
                 return RedirectToAction("Index");
             }
+            TempData["error"] = "The villa could not be deleted.";
             return View();
         }
     }
