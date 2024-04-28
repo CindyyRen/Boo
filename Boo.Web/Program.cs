@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Boo.Infrastructure.Data;
+using Boo.Application.Common.Interfaces;
+using Boo.Infrastructure.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +13,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 Console.WriteLine($"Connection string: {connectionString}");
+
+builder.Services.AddScoped<IVillaRepository, VillaRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
