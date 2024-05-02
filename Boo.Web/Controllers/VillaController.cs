@@ -40,6 +40,7 @@ namespace Boo.Web.Controllers
             {
                 if (obj.Image != null)
                 {
+                    /*GUID(Globally Unique Identifier),a 128-bit integer that is guaranteed to be unique */
                     string fileName = Guid.NewGuid().ToString() + Path.GetExtension(obj.Image.FileName);
                     string imagePath = Path.Combine(_webHostEnvironment.WebRootPath, @"images\VillaImage");
 
@@ -81,6 +82,26 @@ namespace Boo.Web.Controllers
         {
             if (ModelState.IsValid && obj.Id > 0)
             {
+                if (obj.Image != null)
+                {
+                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(obj.Image.FileName);
+                    string imagePath = Path.Combine(_webHostEnvironment.WebRootPath, @"images\VillaImage");
+
+                    if (!string.IsNullOrEmpty(obj.ImageUrl))
+                    {
+                        var oldImagePath = Path.Combine(_webHostEnvironment.WebRootPath, obj.ImageUrl.TrimStart('\\'));
+
+                        if (System.IO.File.Exists(oldImagePath))
+                        {
+                            System.IO.File.Delete(oldImagePath);
+                        }
+                    }
+
+                    using var fileStream = new FileStream(Path.Combine(imagePath, fileName), FileMode.Create);
+                    obj.Image.CopyTo(fileStream);
+
+                    obj.ImageUrl = @"\images\VillaImage\" + fileName;
+                }
                 /* _villaRepo.Update(obj);
                  _villaRepo.Save();*/
                 _unitOfWork.Villa.Update(obj);
@@ -107,6 +128,15 @@ namespace Boo.Web.Controllers
             Villa? objFromDb = _unitOfWork.Villa.Get(u => u.Id == obj.Id);
             if (objFromDb is not null)
             {
+                if (!string.IsNullOrEmpty(objFromDb.ImageUrl))
+                {
+                    var oldImagePath = Path.Combine(_webHostEnvironment.WebRootPath, objFromDb.ImageUrl.TrimStart('\\'));
+
+                    if (System.IO.File.Exists(oldImagePath))
+                    {
+                        System.IO.File.Delete(oldImagePath);
+                    }
+                }
                 /*                _villaRepo.Remove(objFromDb);
                                 _villaRepo.Save();*/
                 _unitOfWork.Villa.Remove(objFromDb);

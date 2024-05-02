@@ -9,10 +9,12 @@
         </div>
     </div>
     <div class="card-body border p-4">
-        <form method="post" class="row">
+        <form method="post" class="row" enctype="multipart/form-data">
+            <div class="col-10">
             <div class="p-3">
                 @* <div asp-validation-summary="All"></div> *@
                 <input asp-for="Id" hidden />
+               
                 <div class="form-floating py-1 col-12">
                     <input asp-for="Name" class="form-control border " />
                     <label asp-for="Name" class="ms-2"></label>
@@ -39,8 +41,9 @@
                     <span asp-validation-for="Occupancy" class="text-danger"></span>
                 </div>
                 <div class="form-floating py-1 col-12">
-                    <input asp-for="ImageUrl" class="form-control border " />
-                    <label asp-for="ImageUrl" class="ms-2"></label>
+                        <input asp-for="Image" class="form-control border " />
+                        <input asp-for="ImageUrl" hidden class="form-control border " />
+                        <label asp-for="ImageUrl" class="ms-2"></label>
                     <span asp-validation-for="ImageUrl" class="text-danger"></span>
                 </div>
                 <div class="row pt-2">
@@ -55,6 +58,12 @@
                         </a>
                     </div>
                 </div>
+                </div>
+
+            </div>
+            <div class="col-2">
+                <img src="@Model.ImageUrl" width="100%"
+                     style="border-radius:5px; border:1px solid #bbb9b9" />
             </div>
         </form>
     </div>
