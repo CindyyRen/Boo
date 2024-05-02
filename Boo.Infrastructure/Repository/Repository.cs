@@ -61,6 +61,11 @@ namespace Boo.Infrastructure.Repository
             return query.ToList();
         }
 
+        public bool Any(Expression<Func<T, bool>> filter)
+        {
+            return dbSet.Any(filter);
+        }
+
         public void Remove(T entity)
         {
             dbSet.Remove(entity);
