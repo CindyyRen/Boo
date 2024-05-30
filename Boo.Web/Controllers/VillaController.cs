@@ -1,10 +1,14 @@
-﻿using Boo.Application.Common.Interfaces;
+﻿using System;
+using Boo.Application.Common.Interfaces;
 using Boo.Domain.Entities;
 using Boo.Infrastructure.Data;
+using Boo.Web.Controllers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Boo.Web.Controllers
 {
+    [Authorize]
     public class VillaController : Controller
     {
         /*private readonly IVillaRepository _villaRepo;*/
@@ -148,3 +152,4 @@ namespace Boo.Web.Controllers
         }
     }
 }
+

@@ -4,9 +4,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc;
 using Boo.Infrastructure.Data;
 using Boo.Web.ViewModels;
+using Boo.Application.Common.Utility;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Boo.Web.Controllers
 {
+    [Authorize(Roles = SD.Role_Admin)]
     public class AmenityController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
